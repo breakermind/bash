@@ -73,8 +73,11 @@ if [ -z "$APP_EMAIL" ]; then
 	exit
 fi
 
-### [ -z "$(dig +short "www.$APP_HOST")" ]  &&  echo "Create www.$APP_HOST host A record in domain DNS zone first."
-### [ -z "$(dig +short "$APP_HOST")" ]  &&  echo "Create $APP_HOST host A record in domain DNS zone first."
+if $TLS_WWW; then
+        [ -z "$(dig +short "www.$APP_HOST")" ]  &&  echo "[error] Create www.$APP_HOST host A record in domain DNS zone first."; exit
+fi
+
+[ -z "$(dig +short "$APP_HOST")" ]  &&  echo "[error] Create $APP_HOST host A record in domain DNS zone first."; exit
 
 ############################################################
 # Functionality                                            #
