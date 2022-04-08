@@ -64,12 +64,12 @@ echo "Host: ${APP_HOST} email: ${APP_EMAIL}"
 
 # validate
 if [ -z "$APP_HOST" ]; then
-	echo "!!! Empty host: $0 -d [host] -m [email]"
+	echo "[error] Empty host: $0 -d [host] -m [email]"
 	exit
 fi
 
 if [ -z "$APP_EMAIL" ]; then
-	echo "!!! Empty email: $0 -d [host] -m [email]"
+	echo "[error] Empty email: $0 -d [host] -m [email]"
 	exit
 fi
 
