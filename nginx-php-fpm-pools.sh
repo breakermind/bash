@@ -29,6 +29,7 @@ Help()
 APP_HOST=""
 APP_EMAIL=""
 PHP_VER=8.1
+TLS_WWW=true
 
 ############################################################
 # Process the input options                                #
@@ -53,27 +54,27 @@ done
 # Required packages                                        #
 ############################################################
 # add dig package
-sudo apt install dnsutils certbot nginx &>/dev/null
+sudo apt install -y dnsutils certbot nginx
 
 ############################################################
 # Script params                                            #
 ############################################################
-echo $APP_HOST
-echo $APP_MAIL
+echo "Input params:"
+echo "Host: ${APP_HOST} email: ${APP_EMAIL}"
 
 # validate
 if [ -z "$APP_HOST" ]; then
-	echo "!!! Empty param1: _vps-pool.sh -d [host] -m [email]"
+	echo "!!! Empty host: $0 -d [host] -m [email]"
 	exit
 fi
 
 if [ -z "$APP_EMAIL" ]; then
-	echo "!!! Empty param2: _vps-pool.sh -d [host] -m [email]"
+	echo "!!! Empty email: $0 -d [host] -m [email]"
 	exit
 fi
 
-[ -z "$(dig +short "www.$APP_HOST")" ]  &&  echo "Create www.$APP_HOST host A record in domain DNS zone first."
-[ -z "$(dig +short "$APP_HOST")" ]  &&  echo "Create $APP_HOST host A record in domain DNS zone first."
+### [ -z "$(dig +short "www.$APP_HOST")" ]  &&  echo "Create www.$APP_HOST host A record in domain DNS zone first."
+### [ -z "$(dig +short "$APP_HOST")" ]  &&  echo "Create $APP_HOST host A record in domain DNS zone first."
 
 ############################################################
 # Functionality                                            #
@@ -84,11 +85,17 @@ echo "Your email ${APP_EMAIL} domain host ${APP_HOST}"
 # Certbot certificates                                     #
 ############################################################
 # Domains to install cert on (comma separated)
-FQDNS="${APP_HOST}, www.${APP_HOST}"
+
+if $TLS_WWW
+then
+FQDNS="${APP_HOST},www.${APP_HOST}"
+else
+FQDNS="${APP_HOST}"
+fi
 
 sudo service nginx stop
 
-sudo certbot certonly --standalone --agree-tos --non-interactive --email ${APP_EMAIL} --domains ${FQDNS}
+sudo certbot certonly --standalone --agree-tos --non-interactive --expand --email ${APP_EMAIL} -d ${FQDNS}
 
 sudo service nginx start
 
