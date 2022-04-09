@@ -21,3 +21,5 @@ server {
 	return 444;
 }
 " > /etc/nginx/sites-available/default
+
+sudo service nginx restart
