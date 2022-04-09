@@ -260,10 +260,11 @@ server {
 	server_name ${APP_HOST};
 	root /srv/www/${APP_HOST}/public;
 	index index.php index.html;
-
+	
 	charset utf-8;
 	disable_symlinks off;
 	client_max_body_size 64M;
+	gzip off;
 
 	access_log /srv/log/${APP_HOST}/access.log;
 	error_log /srv/log/${APP_HOST}/error.log warn;
