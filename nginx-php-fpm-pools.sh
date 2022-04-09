@@ -1,9 +1,11 @@
 #!/bin/bash
 #######################################################################################
+# Php-fpm pools (nginx)                                                               #
 # Set DNS domain A record first for your hosts [www.api.example.com, api.example.com] #
 # Install php8.1-fpm or change script PHP_VER variable                                #
 # Script create certificates for domain (certbot)                                     #
 # Virtualhost redirects www page to secured non-www (https)                           #
+# Link: https://github.com/breakermind/bash
 #######################################################################################
 
 ############################################################
